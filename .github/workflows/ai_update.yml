@@ -1,4 +1,4 @@
-## .github/workflows/ai\_update.yml
+# .github/workflows/ai\_update.yml
 
 ```yaml
 name: Auto AI Updates
@@ -40,13 +40,13 @@ jobs:
 
 ---
 
-## scripts/update\_readme.py
+# scripts/update\_readme.py (unchanged)
 
 ```python
 import os
 import openai
 
-# Load API key from environment for v1 OpenAI Python client
+# Load API key from environment
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Read existing README
@@ -65,7 +65,7 @@ response = openai.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
         {"role": "system", "content": "You are a helpful assistant for documentation."},
-        {"role": "user", "content": prompt}
+        {"role": "user",   "content": prompt}
     ],
     temperature=0.3,
 )
@@ -75,29 +75,3 @@ updated = response.choices[0].message.content
 with open("README.md", "w", encoding="utf-8") as f:
     f.write(updated)
 ```
-
----
-
-### Next Steps
-
-1. **Commit & push**:
-
-   ```powershell
-   git add .github\workflows\ai_update.yml scripts\update_readme.py
-   git commit -m "fix: migrate to OpenAI Python v1 interface"
-   git push origin main
-   ```
-
-2. **Verify locally** (optional but recommended):
-
-   ```powershell
-   # Inside your repo root:
-   pip install openai  # installs the v1+ client
-   $Env:OPENAI_API_KEY = "sk-..."  # replace with your key
-   python scripts/update_readme.py  # should run without errors
-   ```
-
-3. **Re-run the GitHub Action**:
-
-   * In your repo’s **Actions** tab, select **Auto AI Updates** and click **Re-run jobs**.
-   * Confirm the workflow now completes successfully and updates your README.
