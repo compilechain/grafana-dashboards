@@ -15,8 +15,8 @@ prompt = (
     + current
 )
 
-# Call OpenAI
-response = openai.ChatCompletion.create(
+# Call OpenAI with the new chat interface
+response = openai.chat.completions.create(
     model="gpt-4o-mini",
     messages=[
         {"role": "system", "content": "You are a helpful assistant for documentation."},
