@@ -1,0 +1,32 @@
+name: Code Cleanup
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    # runs daily at midnight UTC; adjust as needed
+    - cron: '0 0 * * *'
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0   # needed if you want to commit back
+
+      - name: Run pre-commit  
+        uses: pre-commit/action@v4
+        with:
+          # run on all files, auto-apply fixes
+          extra_args: --all-files
+
+      - name: Commit any fixes  
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: chore: automated code cleanup
+          branch: main
+          file_pattern: '.*'
