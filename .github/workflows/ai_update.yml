@@ -39,7 +39,7 @@ jobs:
 
 # scripts/update\_readme.py (unchanged)
 
-```python
+python
 import os
 import openai
 
