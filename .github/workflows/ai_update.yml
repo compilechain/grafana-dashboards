@@ -1,3 +1,6 @@
+## .github/workflows/ai\_update.yml
+
+```yaml
 name: Auto AI Updates
 
 on:
@@ -33,3 +36,68 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add README.md
           git diff --quiet || git commit -m "chore: AI updated README"
+```
+
+---
+
+## scripts/update\_readme.py
+
+```python
+import os
+import openai
+
+# Load API key from environment for v1 OpenAI Python client
+openai.api_key = os.getenv("OPENAI_API_KEY")
+
+# Read existing README
+with open("README.md", "r", encoding="utf-8") as f:
+    current = f.read()
+
+# Prepare prompt for AI
+prompt = (
+    "You are a GitHub Action assistant. "
+    "Please improve and structure the following README for a Grafana dashboards project:\n\n"
+    + current
+)
+
+# Call OpenAI with the new chat interface
+response = openai.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=[
+        {"role": "system", "content": "You are a helpful assistant for documentation."},
+        {"role": "user", "content": prompt}
+    ],
+    temperature=0.3,
+)
+
+# Extract and write updated content
+updated = response.choices[0].message.content
+with open("README.md", "w", encoding="utf-8") as f:
+    f.write(updated)
+```
+
+---
+
+### Next Steps
+
+1. **Commit & push**:
+
+   ```powershell
+   git add .github\workflows\ai_update.yml scripts\update_readme.py
+   git commit -m "fix: migrate to OpenAI Python v1 interface"
+   git push origin main
+   ```
+
+2. **Verify locally** (optional but recommended):
+
+   ```powershell
+   # Inside your repo root:
+   pip install openai  # installs the v1+ client
+   $Env:OPENAI_API_KEY = "sk-..."  # replace with your key
+   python scripts/update_readme.py  # should run without errors
+   ```
+
+3. **Re-run the GitHub Action**:
+
+   * In your repo’s **Actions** tab, select **Auto AI Updates** and click **Re-run jobs**.
+   * Confirm the workflow now completes successfully and updates your README.
