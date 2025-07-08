@@ -1,0 +1,7 @@
+How it works
+
+Checks out your main branch fully (so it can commit back).
+
+Runs all hooks from .pre-commit-config.yaml, auto-fixing where possible.
+
+Uses a small Action to commit & push any file changes back to main.
