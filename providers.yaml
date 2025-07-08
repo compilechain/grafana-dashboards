@@ -1,0 +1,7 @@
+providers:
+  - name: 'my-dashboards'
+    type: file
+    updateIntervalSeconds: 30
+    disableDeletion: true
+    options:
+      path: /var/lib/grafana/dashboards
