@@ -1,0 +1,7 @@
+What this does
+
+Strips trailing whitespace, fixes end-of-file, validates YAML.
+
+Runs Black & isort on Python.
+
+Runs Prettier on JSON, JS, YAML, Markdown, etc
