@@ -48,6 +48,7 @@ In this repository, we maintain all Grafana dashboard JSON exports and their cor
 ### `.gitignore`
 
 ```gitignore
+# Ignore editor and temporary files
 *.swp
 *~
 ```
@@ -56,10 +57,10 @@ In this repository, we maintain all Grafana dashboard JSON exports and their cor
 
 ```yaml
 providers:
-  - name: 'my-dashboards'
-    type: file
-    updateIntervalSeconds: 30
-    disableDeletion: true  # Prevents JSON removal from deleting dashboards
+  - name: 'my-dashboards'       # identifier shown in logs
+    type: file                  # file-based provisioning
+    updateIntervalSeconds: 30   # scan folder every 30 seconds
+    disableDeletion: true       # Prevents JSON removal from deleting dashboards
     options:
       path: C:/Program Files/GrafanaLabs/grafana/conf/provisioning/dashboards
 ```
